@@ -1,11 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projektarbete</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+   <div class="buttonDiv"> 
+        <div>
+            <button id="darkMode">Dark mode</button>
+            <button id="lightMode">Light mode</button>
+        </div>
+    </div>
+
+    <h1 class="title">Djurquizet - under the sea</h1>
+
+    <h2>Fråga 1</h2>
+    <fieldset>
+        <legend>Vilket organ saknar sjöstjärnan</legend>
+      
+        <div>
+          <input type="checkbox" id="hjarna" name="option" value="a"/>
+          <label for="hjarna">Hjärnan</label>
+        </div>
+      
+        <div>
+          <input type="checkbox" id="tarmen" name="option" value="b"/>
+          <label for="tarmen">Tarmen</label>
+        </div>
+
+        <div>
+            <input type="checkbox" id="lungorna" name="option" value="c"/>
+            <label for="lungorna">Lungorna</label>
+        </div>
+
+        <input type="checkbox" id="nervsystemet" name="option" value="d"/>
+        <label for="nervsystemet">Nervsystemet</label>
+      </fieldset>
+      <br>
+      <br> 
+
+      <button id="gradeTest">Rätta!</button>
+
+      <ul id="ulList">
+
+      </ul>
+      
+
+    <script src="index.js"></script>
 </body>
 </html>
+
