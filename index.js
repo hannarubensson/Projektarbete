@@ -93,65 +93,71 @@ let myQuestions = [{
 
 ];
 
-// En variabel som kan ticka upp när man går till nästa fråga.
-// Nästa funktion som sätter in frågan och svaret
-// For-loop - rätt plats i arrayen
-// Arrayens namn[0], 
-// On change - när någon ändrar checkboxen eller så använder man get documentbyId
-// En funktion som du anropar som hämtar vämtar värdet från checkbox med id:et (html-elementet)
-
-
-
+// En variabel som räknar antal rätt
+let numCorrect = 0;
+let selectedValue = []; 
 
 // Funktion för att kolla om checkboxes är ifyllda
-let checkBoxFunction = (checked) => {
+let checkBoxFunction = (checked) => { // Fel parameter?
+
     // Fråga 1
     let hjarnan = document.querySelector("[value='a']:checked");
     let tarmen = document.querySelector("[value='b']:checked");
     let lungorna = document.querySelector("[value='c']:checked"); 
     let nervsystemet = document.querySelector("[value='d']:checked"); 
 
+    // checked.forEach((box) => { // Lägger in checked i selectedValue - men funkar inte.
+    //     selectedValue.push(box.value);
+    // })
+
+    if (hjarnan) selectedValue.push("a");
+    if (tarmen) selectedValue.push("b");
+    if (lungorna) selectedValue.push("c");
+    if (nervsystemet) selectedValue.push("d");
+
+    // if (box) selectedValue.push(box.value); // Kan man förenkla?
+
     if (hjarnan || tarmen || lungorna || nervsystemet) {
-        // Återvänd värdet om någon checkbox är markerad
-        return true;
-    } else {
-        // Ingen checkbox är markerad
-        return false;
+        
+        return selectedValue.length === 3; // Vet inte vilka villkor jag ska sätta?
     }
     
 }
-
 
 // Funktion för att lägga till listelement vid rättning
-let answerFunction = (correctanswer) => {
-
-    // Loopar igenom myQuestions med rätt svar per fråga
-    for (x=0; x<myQuestions.length; x++) {
-    let listElement = document.createElement("li"); 
-    listElement.innerText = `Rätt svar på fråga var: ${correctanswer}`; 
-    ulList.appendChild(listElement); 
-    }
-    
-}
+let answerFunction = (array) => {
 
 const ulList = document.getElementById("ulList"); // Hämtar ul-listan
 
+    // Loopar igenom myQuestions med rätt svar per fråga
+    array.forEach(option => {
+    let listElement = document.createElement("li");
+    listElement.innerText = `Rätt svar på fråga var: ${option.correctanswer}`;
+    ulList.appendChild(listElement);
+    });
+    
+
+}
 
 const gradeTest = document.getElementById("gradeTest"); // Hämtar knappen gradeTest (rättning)
 
-var numCorrect = 0;
-
 gradeTest.addEventListener("click", () => {
 
-    for(let x=0; x < myQuestions.length; x++) {
+    checkBoxFunction(); 
 
-            if (checkBoxFunction(myQuestions[x].correctanswer)) {
+    //Filtrerar myQuestions - men ska jag jämföra den med selectedValue? 
+    let filteredValue = myQuestions.filter((option) => {
+        return selectedValue.includes(option.correctanswer);
+    });
+    
+    answerFunction(filteredValue);
 
-                // Anropar answerfunction om checkbox är ifylld
-                answerFunction(myQuestions[x].correctanswer);
-                numCorrect++; 
-                
-        }
-    }
+    // let filteredValue = myQuestions.filter((option) => {
+    //   return selectedValue.includes(option.option) && selectedValue.includes(option.option);
+    // });
+    // answerFunction(filteredValue);
 
+    console.log("Frågor:", myQuestions);
+    console.log("selected value:", selectedValue); // Funkar - men loopar igenom alla svar
+    console.log("filtrerat value:", filteredValue);  // Funkar - men loopar igenom alla svar
 });
