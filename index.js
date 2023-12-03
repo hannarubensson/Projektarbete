@@ -15,7 +15,7 @@ let myQuestions = [{
     option: {
         a: "På huvudet", 
         b: "På tentaklarna"},
-    correctanswer: "b",
+    correctanswer: ["b"],
 },
 {
     id: 3, 
@@ -25,7 +25,7 @@ let myQuestions = [{
         b: "Sju", 
         c: "Tjugo", 
         d: "Trettio"},  
-    correctanswer: "c",
+    correctanswer: ["c"],
 },
 {
     id: 4, 
@@ -33,7 +33,7 @@ let myQuestions = [{
     option: {
         a: "Rött", 
         b: "Blått"},
-    correctanswer: "b",
+    correctanswer: ["b"],
 }, 
 {
     id: 5, 
@@ -43,7 +43,7 @@ let myQuestions = [{
         b: "Två", 
         c: "Tre", 
         d: "Fyra"}, 
-    correctanswer: "c",
+    correctanswer: ["c"],
 },
 {
     id: 6, 
@@ -61,7 +61,7 @@ let myQuestions = [{
     option: {
         a: "Pufferfish", 
         b: "Box Jellyfish"}, 
-    correctanswer: "b",
+    correctanswer: ["b"],
 },
 {
     id: 8, 
@@ -70,7 +70,7 @@ let myQuestions = [{
         a: "Ett",
         b: "Två",
     },
-    correctanswer: "b", 
+    correctanswer: ["b"], 
 },
 {
     id: 9, 
@@ -79,7 +79,7 @@ let myQuestions = [{
         a: "hanna",
         b: "rubensson",
     },
-    correctanswer: "a",
+    correctanswer: ["a"],
 },
 {
     id: 10, 
@@ -88,40 +88,86 @@ let myQuestions = [{
         a: "lorem",
         b: "ipsum",
     }, 
-    correctanswer: "b",
+    correctanswer: ["b"],
 }
 
 ];
 
 // En variabel som räknar antal rätt
 let numCorrect = 0;
-let selectedValue = []; 
+
+// Vad yourAnswers kommer att innehålla för data
+// {
+    //id: "",
+    //question: "",
+    //selectedanswer: "",
+    //correctanswer: "",
+//}
+let yourAnswers = [];
+
+let rememberMyAnswer = (isCorrect) => {
+    
+    const question = getCurrentQuestion(); 
+    yourAnswers.push({
+        id: question.id,
+        question: question.question,
+        selectedanswer: fetchSelectedValues(), // Sträng
+        correctanswer: //Korrekt svar - ska innehålla en sträng som ska skrivas ut i html-elementet
+    });
+
+}
 
 // Funktion för att kolla om checkboxes är ifyllda
-let checkBoxFunction = (checked) => { // Fel parameter?
+let fetchSelectedValues = (checked) => { // Fel parameter?
+    const selectedValue = []; 
 
     // Fråga 1
-    let hjarnan = document.querySelector("[value='a']:checked");
-    let tarmen = document.querySelector("[value='b']:checked");
-    let lungorna = document.querySelector("[value='c']:checked"); 
-    let nervsystemet = document.querySelector("[value='d']:checked"); 
+    let a = document.querySelector("[value='a']:checked");
+    let b = document.querySelector("[value='b']:checked");
+    let c = document.querySelector("[value='c']:checked"); 
+    let d = document.querySelector("[value='d']:checked"); 
 
     // checked.forEach((box) => { // Lägger in checked i selectedValue - men funkar inte.
     //     selectedValue.push(box.value);
     // })
 
-    if (hjarnan) selectedValue.push("a");
-    if (tarmen) selectedValue.push("b");
-    if (lungorna) selectedValue.push("c");
-    if (nervsystemet) selectedValue.push("d");
+    if (a) selectedValue.push("a");
+    if (b) selectedValue.push("b");
+    if (c) selectedValue.push("c");
+    if (d) selectedValue.push("d");
 
     // if (box) selectedValue.push(box.value); // Kan man förenkla?
-
-    if (hjarnan || tarmen || lungorna || nervsystemet) {
-        
-        return selectedValue.length === 3; // Vet inte vilka villkor jag ska sätta?
-    }
     
+    return selectedValue;
+}
+//Rättningsfunktion - selectedValues och correctanswer måste vara sorterade a-z
+let isAllCorrectSelected = (selectedValues, correctanswer) => {
+
+    if (selectedValues.length != correctanswer.length){ // Vet omedelbart att det är fel om man klickat i en checkbox för mycket
+    return false; 
+    }
+
+    for (let k=0; k < selectedValues.length; k++){ 
+
+        if (selectedValues[k] != correctanswer[k]) { // hitta något som inte stämmer - arrayerna har samma längd 
+            return false; 
+        }
+    }    
+    
+    return true; 
+
+} 
+
+let getCurrentQuestion = () => {
+
+    for (const item of myQuestions){
+        
+        if (item.id === 1) {
+            // Fixa bättre senare för att ta reda på vilken fråga man är på 
+            return item;
+        } 
+    }
+    return undefined; 
 }
 
 // Funktion för att lägga till listelement vid rättning
@@ -129,28 +175,28 @@ let answerFunction = (array) => {
 
 const ulList = document.getElementById("ulList"); // Hämtar ul-listan
 
+    ulList.innerHTML=""; 
     // Loopar igenom myQuestions med rätt svar per fråga
     array.forEach(option => {
     let listElement = document.createElement("li");
-    listElement.innerText = `Rätt svar på fråga var: ${option.correctanswer}`;
+    listElement.innerText = `Rätt svar på fråga ${id} var: ${option.correctanswer}`;
     ulList.appendChild(listElement);
+    
     });
     
 
 }
 
+
 const gradeTest = document.getElementById("gradeTest"); // Hämtar knappen gradeTest (rättning)
 
 gradeTest.addEventListener("click", () => {
 
-    checkBoxFunction(); 
-
-    //Filtrerar myQuestions - men ska jag jämföra den med selectedValue? 
-    let filteredValue = myQuestions.filter((option) => {
-        return selectedValue.includes(option.correctanswer);
-    });
+    const selectedValues = fetchSelectedValues(); 
+    const currentQuestion = getCurrentQuestion(); 
+    const isCorrect = isAllCorrectSelected(selectedValues, currentQuestion.correctanswer); // Får ut arrayen med correct answer
     
-    answerFunction(filteredValue);
+    answerFunction(isCorrect);
 
     // let filteredValue = myQuestions.filter((option) => {
     //   return selectedValue.includes(option.option) && selectedValue.includes(option.option);
