@@ -93,6 +93,35 @@ let myQuestions = [{
 
 ];
 
+// Darkmode och lightmode
+const darkMode = document.getElementById("darkMode") // Hämtar knappen darkMode
+const styleElements = document.querySelectorAll("h1, h2, fieldset"); // Elementen jag vill styla
+const lightMode = document.getElementById("lightMode"); // Hämtar knappen lightMode
+
+// Uppdaterar vad som händer vid knapptryck
+darkMode.addEventListener("click", () => {
+    document.body.style.backgroundColor = "rgb(96, 25, 25)";
+    document.body.style.color = "white";
+
+    styleElements.forEach(element => {
+        element.style.color = "#fff";
+    });
+
+}); 
+
+// Uppdaterar vad som händer vid knapptryck
+lightMode.addEventListener("click", () => {
+    document.body.style.backgroundColor = "antiquewhite";
+
+    styleElements.forEach(element => {
+        element.style.color = "chocolate";
+    })
+})
+
+
+// Här kommer funktionerna för vad som händer i quizet
+
+
 // En variabel som räknar antal rätt
 let numCorrect = 0;
 
@@ -107,12 +136,15 @@ let yourAnswers = [];
 
 let rememberMyAnswer = (isCorrect) => {
     
-    const question = getCurrentQuestion(); 
+    const question = getCurrentQuestion(); // Vilken fråga man är på
+
     yourAnswers.push({
+        
         id: question.id,
         question: question.question,
-        selectedanswer: fetchSelectedValues(), // Sträng
-        correctanswer: //Korrekt svar - ska innehålla en sträng som ska skrivas ut i html-elementet
+        selectedanswer: fetchSelectedValues(), // Funkar - bör lägga in en sträng 
+        correctanswer: question.correctanswer, // Funkar - bör lägga in en sträng
+        //Korrekt svar - ska innehålla en sträng som ska skrivas ut i html-elementet
     });
 
 }
@@ -127,16 +159,17 @@ let fetchSelectedValues = (checked) => { // Fel parameter?
     let c = document.querySelector("[value='c']:checked"); 
     let d = document.querySelector("[value='d']:checked"); 
 
-    // checked.forEach((box) => { // Lägger in checked i selectedValue - men funkar inte.
-    //     selectedValue.push(box.value);
-    // })
-
     if (a) selectedValue.push("a");
     if (b) selectedValue.push("b");
     if (c) selectedValue.push("c");
     if (d) selectedValue.push("d");
 
-    // if (box) selectedValue.push(box.value); // Kan man förenkla?
+    //Fråga 2
+    let huvudet = document.getElementById("huvudet").value; // Behöver undvika värde av null
+    let armarna = document.getElementById("armarna").value; 
+
+    if (huvudet) selectedValue.push("huvudet"); 
+    if (armarna) selectedValue.push("armarna"); 
     
     return selectedValue;
 }
@@ -154,7 +187,8 @@ let isAllCorrectSelected = (selectedValues, correctanswer) => {
         }
     }    
     
-    return true; 
+    numCorrect++; // La in numcorrect för att räkna svar
+    return true; // Vid rätt svar
 
 } 
 
@@ -162,8 +196,7 @@ let getCurrentQuestion = () => {
 
     for (const item of myQuestions){
         
-        if (item.id === 1) {
-            // Fixa bättre senare för att ta reda på vilken fråga man är på 
+        if (item.id === myQuestions.id) { // La till denna boolean - vet ej om den funkar
             return item;
         } 
     }
@@ -171,15 +204,17 @@ let getCurrentQuestion = () => {
 }
 
 // Funktion för att lägga till listelement vid rättning
-let answerFunction = (array) => {
+let answerFunction = (obj) => { // Ändrade från array till object
 
 const ulList = document.getElementById("ulList"); // Hämtar ul-listan
+rememberMyAnswer(); // La till denna för att föra in vilket svar man gett????zz
 
     ulList.innerHTML=""; 
+
     // Loopar igenom myQuestions med rätt svar per fråga
-    array.forEach(option => {
+    yourAnswers.forEach(option => { //La in yourAnswer
     let listElement = document.createElement("li");
-    listElement.innerText = `Rätt svar på fråga ${id} var: ${option.correctanswer}`;
+    listElement.innerText = `Rätt svar på fråga ${option.id} var: ${option.correctanswer}, du svarade ${option.selectedanswer}`; // option.correctanswer funkar inte
     ulList.appendChild(listElement);
     
     });
@@ -204,6 +239,7 @@ gradeTest.addEventListener("click", () => {
     // answerFunction(filteredValue);
 
     console.log("Frågor:", myQuestions);
-    console.log("selected value:", selectedValue); // Funkar - men loopar igenom alla svar
-    console.log("filtrerat value:", filteredValue);  // Funkar - men loopar igenom alla svar
+    console.log("selected value:", selectedValues); 
+    console.log("filtrerat value:", isCorrect);  // Boolean
+    console.log(getCurrentQuestion());
 });

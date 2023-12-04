@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 body {
     background-color: antiquewhite;
@@ -31,4 +32,15 @@ h1 {
     color: chocolate; 
     font-size: 5em;
     text-align: center;
+}
+
+h2 {
+    font-family: "Poppins";
+    color: chocolate;
+}
+
+fieldset {
+    font-family: "Poppins";
+    color:rgb(96, 25, 25);
+    border: 3px solid white;
 }
