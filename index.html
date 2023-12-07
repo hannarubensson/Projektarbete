@@ -17,26 +17,16 @@
 
     <h1 class="title">Djurquizet - under the sea</h1>
 
-    <h2>Fråga 1 - Vilka organ saknar sjöstjärnan?</h2>
+    <h2>Fråga 1 - Vilket organ saknar sjöstjärnan?</h2>
     <fieldset>
-        <legend>Markera tre svar</legend>
+        <legend>Markera ett svar</legend>
       
         <div>
-          <input type="checkbox" id="hjarna" name="option" value="a"/>
+          <input type="radio" id="hjarna" name="optionOne" value="a"/>
           <label for="hjarna">Hjärnan</label>
         </div>
-      
-        <div>
-          <input type="checkbox" id="tarmen" name="option" value="b"/>
-          <label for="tarmen">Tarmen</label>
-        </div>
 
-        <div>
-            <input type="checkbox" id="lungorna" name="option" value="c"/>
-            <label for="lungorna">Lungorna</label>
-        </div>
-
-        <input type="checkbox" id="nervsystemet" name="option" value="d"/>
+        <input type="radio" id="nervsystemet" name="optionOne" value="b"/>
         <label for="nervsystemet">Nervsystemet</label>
       </fieldset>
       <br>
@@ -47,17 +37,43 @@
         <legend>True/False</legend>
       
         <div>
-          <input type="radio" id="huvudet" name="option" value="a"/>
+          <input type="radio" id="huvudet" name="optionTwo" value="a"/>
           <label for="huvudet">På huvudet</label>
         </div>
       
         <div>
-          <input type="radio" id="armarna" name="option" value="b"/>
+          <input type="radio" id="armarna" name="optionTwo" value="b"/>
           <label for="armarna">På armarna</label>
         </div>
       </fieldset>
       <br>
       <br>
+
+      <!-- {
+        id: 3, 
+        question: "Hur många armar kan en sjöstjärna som mest ha?", // Multiple choice fråga med ett rätt svar
+        option: {
+            a: "Fem", 
+            b: "Tjugo"},  
+        correctanswer: ["b"],
+    }, -->
+
+    <h2>Fråga 3 - Hur många armar kan en sjöstjärna som mest ha?</h2>
+    <fieldset>
+      <legend>Välj ett alternativ</legend>
+    
+      <div>
+        <input type="radio" id="fem" name="optionThree" value="a"/>
+        <label for="fem">Fem</label>
+      </div>
+    
+      <div>
+        <input type="radio" id="tjugo" name="optionThree" value="b"/>
+        <label for="tjugo">Tjugo</label>
+      </div>
+    </fieldset>
+    <br>
+    <br>
 
       <button id="gradeTest">Rätta!</button>
 
@@ -66,7 +82,7 @@
       </ul>
       
 
-    <script src="index.js"></script>
+    <script src="index1.js"></script>
 </body>
 </html>
 

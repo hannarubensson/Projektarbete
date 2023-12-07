@@ -13,8 +13,8 @@ let myQuestions = [{
     id: 2,
     question: "Var sitter sjöstjärnans ögon?", // True false-fråga
     option: {
-        a: "På huvudet", 
-        b: "På tentaklarna"},
+        a: "huvudet", 
+        b: "armarna"},
     correctanswer: ["b"],
 },
 {
@@ -134,24 +134,22 @@ let numCorrect = 0;
 //}
 let yourAnswers = [];
 
-let rememberMyAnswer = (isCorrect) => {
+let rememberMyAnswer = () => {
     
     const question = getCurrentQuestion(); // Vilken fråga man är på
 
     yourAnswers.push({
-        
         id: question.id,
-        question: question.question,
-        selectedanswer: fetchSelectedValues(), // Funkar - bör lägga in en sträng 
-        correctanswer: question.correctanswer, // Funkar - bör lägga in en sträng
-        //Korrekt svar - ska innehålla en sträng som ska skrivas ut i html-elementet
+        selectedanswer: fetchSelectedValues(),
+        correctanswer: question.correctanswer, 
     });
 
 }
 
-// Funktion för att kolla om checkboxes är ifyllda
-let fetchSelectedValues = (checked) => { // Fel parameter?
+// Funktion för att kolla om checkboxes är ifyllda - ska inte pusha in allt i samma array
+let fetchSelectedValues = () => { 
     const selectedValue = []; 
+    const selectedValueTwo =[]; 
 
     // Fråga 1
     let a = document.querySelector("[value='a']:checked");
@@ -165,81 +163,96 @@ let fetchSelectedValues = (checked) => { // Fel parameter?
     if (d) selectedValue.push("d");
 
     //Fråga 2
-    let huvudet = document.getElementById("huvudet").value; // Behöver undvika värde av null
-    let armarna = document.getElementById("armarna").value; 
+    let huvudet = document.getElementById("huvudet");
+    let armarna = document.getElementById("armarna"); 
 
-    if (huvudet) selectedValue.push("huvudet"); 
-    if (armarna) selectedValue.push("armarna"); 
+    if (huvudet.checked) selectedValueTwo.push("På huvudet"); 
+    if (armarna.checked) selectedValueTwo.push("På armarna"); 
     
-    return selectedValue;
+    return selectedValue;  // Returnera en array med den specifika frågan - parameter med den spec. frågan
 }
+
+
 //Rättningsfunktion - selectedValues och correctanswer måste vara sorterade a-z
 let isAllCorrectSelected = (selectedValues, correctanswer) => {
 
-    if (selectedValues.length != correctanswer.length){ // Vet omedelbart att det är fel om man klickat i en checkbox för mycket
-    return false; 
+        if (selectedValues.length !== correctanswer.length) {
+            return false;
+        }
+    
+        for (let x = 0; x < selectedValues.length; x++) {
+            if (selectedValues[x] !== correctanswer[x]) {
+                
+                return false;
+            }
+        }
+    
+        return true;
     }
 
-    for (let k=0; k < selectedValues.length; k++){ 
+let currentQuestionIndex = 0; // La in en ränare för att ta reda på vilken fråga man är på
 
-        if (selectedValues[k] != correctanswer[k]) { // hitta något som inte stämmer - arrayerna har samma längd 
-            return false; 
-        }
-    }    
-    
-    numCorrect++; // La in numcorrect för att räkna svar
-    return true; // Vid rätt svar
-
-} 
-
+// Räknar vilken fråga man är på
 let getCurrentQuestion = () => {
 
-    for (const item of myQuestions){
-        
-        if (item.id === myQuestions.id) { // La till denna boolean - vet ej om den funkar
-            return item;
-        } 
+        for (let x=0; x<myQuestions.length; x++) {
+        const question = myQuestions[currentQuestionIndex];
+        return question;
     }
-    return undefined; 
+
 }
 
 // Funktion för att lägga till listelement vid rättning
-let answerFunction = (obj) => { // Ändrade från array till object
+let answerFunction = (obj) => {
 
-const ulList = document.getElementById("ulList"); // Hämtar ul-listan
-rememberMyAnswer(); // La till denna för att föra in vilket svar man gett????zz
+    // const currentQuestion = getCurrentQuestion(); 
+    rememberMyAnswer(); 
 
+    const ulList = document.getElementById("ulList"); // Hämtar ul-listan
     ulList.innerHTML=""; 
-
-    // Loopar igenom myQuestions med rätt svar per fråga
-    yourAnswers.forEach(option => { //La in yourAnswer
-    let listElement = document.createElement("li");
-    listElement.innerText = `Rätt svar på fråga ${option.id} var: ${option.correctanswer}, du svarade ${option.selectedanswer}`; // option.correctanswer funkar inte
-    ulList.appendChild(listElement);
     
-    });
+    // console.log("CurrentQuestion:", currentQuestion);
+
+        // Loopar igenom myQuestions med rätt svar per fråga
+        yourAnswers.forEach(option => {
+            console.log("option", option);
+            let listElement = document.createElement("li");
+            listElement.innerText = `Rätt svar på fråga ${option.id} var: ${option.correctanswer}, du svarade ${option.selectedanswer}`;
+            ulList.appendChild(listElement);
+        
+        });
+        
     
-
-}
-
+    }
 
 const gradeTest = document.getElementById("gradeTest"); // Hämtar knappen gradeTest (rättning)
 
 gradeTest.addEventListener("click", () => {
+    console.log("Klickat på knappen!");
 
-    const selectedValues = fetchSelectedValues(); 
     const currentQuestion = getCurrentQuestion(); 
-    const isCorrect = isAllCorrectSelected(selectedValues, currentQuestion.correctanswer); // Får ut arrayen med correct answer
-    
-    answerFunction(isCorrect);
 
-    // let filteredValue = myQuestions.filter((option) => {
-    //   return selectedValue.includes(option.option) && selectedValue.includes(option.option);
-    // });
-    // answerFunction(filteredValue);
+    for (let x=0; x < myQuestions.length; x++) { // Kan återanvända indexet till nästa fråga
+        console.log("Forloop körs");
+        
+        currentQuestionIndex++;
 
-    console.log("Frågor:", myQuestions);
-    console.log("selected value:", selectedValues); 
-    console.log("filtrerat value:", isCorrect);  // Boolean
-    console.log(getCurrentQuestion());
-});
+        const selectedValues = fetchSelectedValues(); 
+        const isCorrect = isAllCorrectSelected(selectedValues, currentQuestion.correctanswer);
+
+        console.log("yourAnswers:", yourAnswers); 
+
+    if (currentQuestionIndex === 1) {
+        numCorrect++;   
+        console.log("Rätt svar på fråga 1!");
+        answerFunction(isCorrect);
+    }
+
+    else if (currentQuestionIndex === 2) {
+            numCorrect++; 
+            console.log("Rätt svar på fråga 2!");
+            answerFunction(isCorrect);
+        }
+    }
+
+    }); 
