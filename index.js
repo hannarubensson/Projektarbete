@@ -4,10 +4,8 @@ let myQuestions = [{
     question: "Vilket organ saknar sjöstjärnan?", // Flervalsfråga med checkboxes - flera rätta svar
     option: {
         a: "hjärnan", 
-        b: "tarmen", 
-        c: "lungor", 
-        d: "nervsystem"}, 
-    correctanswer: ["a", "b", "c"],
+        b: "nervsystem"}, 
+    correctanswer: ["b"],
 },
 {
     id: 2,
@@ -22,10 +20,8 @@ let myQuestions = [{
     question: "Hur många armar kan en sjöstjärna som mest ha?", // Multiple choice fråga med ett rätt svar
     option: {
         a: "Fem", 
-        b: "Sju", 
-        c: "Tjugo", 
-        d: "Trettio"},  
-    correctanswer: ["c"],
+        b: "Tjugo"},  
+    correctanswer: ["b"],
 },
 {
     id: 4, 
@@ -39,21 +35,17 @@ let myQuestions = [{
     id: 5, 
     question: "Hur många hjärtan har en bläckfisk?", // Multiple choice-fråga med ett rätt svar
     option: {
-        a: "Ett", 
-        b: "Två", 
-        c: "Tre", 
-        d: "Fyra"}, 
-    correctanswer: ["c"],
+        a: "Ett",  
+        b: "Tre"}, 
+    correctanswer: ["b"],
 },
 {
     id: 6, 
     question: "Vilket djur är världens äldsta nu levande art?", // Flervalsfråga med checkboxes - flera rätta svar
     option: {
         a: "Svampdjur", 
-        b: "Immortal Jellyfish", 
-        c: "Bläckfisk", 
-        d: "Sjöstjärna"}, 
-    correctanswer: ["a", "b" ],
+        b: "Bläckfisk"}, 
+    correctanswer: ["a"],
 },
 {
     id: 7, 
@@ -65,28 +57,28 @@ let myQuestions = [{
 },
 {
     id: 8, 
-    question: "lorem ipsum",
+    question: "Vilket är det minsta djuret i havet?",
     option: {
-        a: "Ett",
-        b: "Två",
+        a: "Djurplankton",
+        b: "Krill",
     },
     correctanswer: ["b"], 
 },
 {
     id: 9, 
-    question: "lorem ipsum", 
+    question: "Har bläckfiskar näbbar?", 
     option: {
-        a: "hanna",
-        b: "rubensson",
+        a: "Sant",
+        b: "Falskt",
     },
     correctanswer: ["a"],
 },
 {
     id: 10, 
-    question: "lorem ipsum", 
+    question: "Vilket är havets vänligaste djur?", 
     option: {
-        a: "lorem",
-        b: "ipsum",
+        a: "Vithaj",
+        b: "Delfin",
     }, 
     correctanswer: ["b"],
 }
@@ -119,21 +111,103 @@ lightMode.addEventListener("click", () => {
 })
 
 
-// Här kommer funktionerna för vad som händer i quizet
+// Här kommer funktionerna för vad som händer i quizet -------------------------------------------------
+
+// Funktion för att hämta checkboxar
+
+let currentQuestionIndex = 0; 
+
+// Vilken fråga man är på 
+let getCurrentQuestion = () => {
+
+    for (let x=0; x<myQuestions.length; x++) {
+    const question = myQuestions[currentQuestionIndex];
+    return question;
+}
+
+}
+
+let fetchSelectedValues = (question, value) => {
+
+    // Tom array med alla valda svar
+    const selectedValues = []; 
+    
+    // Fråga 1
+    let hjärnan = document.getElementById("hjarna");
+    let nervsystemet = document.getElementById("nervsystemet"); 
+    
+    if (hjärnan && hjärnan.checked) selectedValues.push("hjärnan");
+    if (nervsystemet && nervsystemet.checked) selectedValues.push("nervsystemet");
+
+    // Fråga 2
+    let huvudet = document.getElementById("huvudet");
+    let armarna = document.getElementById("armarna"); 
+
+    if (huvudet && huvudet.checked) selectedValues.push("huvudet");
+    if (armarna && armarna.checked) selectedValues.push("armarna");
+
+    // Fråga 3
+    let fem = document.getElementById("fem"); 
+    let tjugo = document.getElementById("tjugo");
+
+    if (fem && fem.checked) selectedValues.push("fem");
+    if (tjugo && tjugo.checked) selectedValues.push("tjugo");
+
+    // Fråga 4
+    let red = document.getElementById("red"); 
+    let blue = document.getElementById("blue"); 
+
+    if (red && red.checked) selectedValues.push("red");
+    if (blue && blue.checked) selectedValues.push("blue"); 
+
+    // Fråga 5
+    let ett = document.getElementById("ett"); 
+    let tre = document.getElementById("tre"); 
+
+    if (ett && ett.checked) selectedValues.push("ett"); 
+    if (tre && tre.checked) selectedValues.push("tre"); 
+
+    // Fråga 6
+    let svampdjur = document.getElementById("svampdjur"); 
+    let octopus = document.getElementById("octopus"); 
+
+    if (svampdjur && svampdjur.checked) selectedValues.push("svampdjur");
+    if (octopus && octopus.checked) selectedValues.push("octopus"); 
+
+    // Fråga 7
+    let pufferFish = document.getElementById("pufferfish"); 
+    let boxJellyFish = document.getElementById("boxJellyFish"); 
+
+    if (pufferFish && pufferFish.checked) selectedValues.push("pufferfish"); 
+    if (boxJellyFish && boxJellyFish.checked) selectedValues.push("boxjellyfish"); 
+
+    // Fråga 8
+    let djurPlankton = document.getElementById("djurPlankton"); 
+    let krill = document.getElementById("krill"); 
+
+    if (djurPlankton && djurPlankton.checked) selectedValues.push("djurplankton"); 
+    if (krill && krill.checked) selectedValues.push("krill"); 
+
+    // Fråga 9
+    let sant = document.getElementById("sant"); 
+    let falskt = document.getElementById("falskt"); 
+
+    if (sant && sant.checked) selectedValues.push("sant");
+    if (falskt && falskt.checked) selectedValues.push("falskt");
+
+    // Fråga 10
+    let vitHaj = document.getElementById("vitHaj"); 
+    let delfin = document.getElementById("delfin"); 
+
+    if (vitHaj && vitHaj.checked) selectedValues.push("vithaj"); 
+    if (delfin && delfin.checked) selectedValues.push("delfin"); 
 
 
-// En variabel som räknar antal rätt
-let numCorrect = 0;
+    return selectedValues; 
+    
+}
 
-// Vad yourAnswers kommer att innehålla för data
-// {
-    //id: "",
-    //question: "",
-    //selectedanswer: "",
-    //correctanswer: "",
-//}
-let yourAnswers = [];
-
+// Lägger in svaren på frågorna i ett objekt
 let rememberMyAnswer = () => {
     
     const question = getCurrentQuestion(); // Vilken fråga man är på
@@ -146,113 +220,254 @@ let rememberMyAnswer = () => {
 
 }
 
-// Funktion för att kolla om checkboxes är ifyllda - ska inte pusha in allt i samma array
-let fetchSelectedValues = () => { 
-    const selectedValue = []; 
-    const selectedValueTwo =[]; 
-
-    // Fråga 1
-    let a = document.querySelector("[value='a']:checked");
-    let b = document.querySelector("[value='b']:checked");
-    let c = document.querySelector("[value='c']:checked"); 
-    let d = document.querySelector("[value='d']:checked"); 
-
-    if (a) selectedValue.push("a");
-    if (b) selectedValue.push("b");
-    if (c) selectedValue.push("c");
-    if (d) selectedValue.push("d");
-
-    //Fråga 2
-    let huvudet = document.getElementById("huvudet");
-    let armarna = document.getElementById("armarna"); 
-
-    if (huvudet.checked) selectedValueTwo.push("På huvudet"); 
-    if (armarna.checked) selectedValueTwo.push("På armarna"); 
-    
-    return selectedValue;  // Returnera en array med den specifika frågan - parameter med den spec. frågan
-}
-
-
-//Rättningsfunktion - selectedValues och correctanswer måste vara sorterade a-z
-let isAllCorrectSelected = (selectedValues, correctanswer) => {
-
-        if (selectedValues.length !== correctanswer.length) {
-            return false;
-        }
-    
-        for (let x = 0; x < selectedValues.length; x++) {
-            if (selectedValues[x] !== correctanswer[x]) {
-                
-                return false;
-            }
-        }
-    
-        return true;
-    }
-
-let currentQuestionIndex = 0; // La in en ränare för att ta reda på vilken fråga man är på
-
-// Räknar vilken fråga man är på
-let getCurrentQuestion = () => {
-
-        for (let x=0; x<myQuestions.length; x++) {
-        const question = myQuestions[currentQuestionIndex];
-        return question;
-    }
-
-}
-
-// Funktion för att lägga till listelement vid rättning
-let answerFunction = (obj) => {
-
-    // const currentQuestion = getCurrentQuestion(); 
-    rememberMyAnswer(); 
-
-    const ulList = document.getElementById("ulList"); // Hämtar ul-listan
-    ulList.innerHTML=""; 
-    
-    // console.log("CurrentQuestion:", currentQuestion);
-
-        // Loopar igenom myQuestions med rätt svar per fråga
-        yourAnswers.forEach(option => {
-            console.log("option", option);
-            let listElement = document.createElement("li");
-            listElement.innerText = `Rätt svar på fråga ${option.id} var: ${option.correctanswer}, du svarade ${option.selectedanswer}`;
-            ulList.appendChild(listElement);
-        
-        });
-        
-    
-    }
-
 const gradeTest = document.getElementById("gradeTest"); // Hämtar knappen gradeTest (rättning)
 
 gradeTest.addEventListener("click", () => {
-    console.log("Klickat på knappen!");
 
     const currentQuestion = getCurrentQuestion(); 
+    let numCorrect = 0; 
+    let numTotal = 0; 
 
-    for (let x=0; x < myQuestions.length; x++) { // Kan återanvända indexet till nästa fråga
-        console.log("Forloop körs");
-        
-        currentQuestionIndex++;
+    const selectedValues = fetchSelectedValues(currentQuestion, currentQuestion.option); 
 
-        const selectedValues = fetchSelectedValues(); 
-        const isCorrect = isAllCorrectSelected(selectedValues, currentQuestion.correctanswer);
 
-        console.log("yourAnswers:", yourAnswers); 
+    // Fråga 1
+    if (selectedValues.includes("hjärnan")) {
 
-    if (currentQuestionIndex === 1) {
         numCorrect++;   
-        console.log("Rätt svar på fråga 1!");
-        answerFunction(isCorrect);
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Rätt svar på fråga ett!`; 
+        ulList.appendChild(listElement);
+
+    } else if (selectedValues.includes("nervsystemet")) {
+
+        numTotal++; 
+        
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Fel svar på fråga ett!`; 
+        ulList.appendChild(listElement); 
+
+    } 
+    
+    // Fråga 2
+    if (selectedValues.includes("huvudet")) {
+
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Fel svar på fråga två!`; 
+        ulList.appendChild(listElement); 
+
+    } else if (selectedValues.includes("armarna")) {
+
+        numCorrect++;
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Rätt svar på fråga två!`; 
+        ulList.appendChild(listElement); 
+
     }
 
-    else if (currentQuestionIndex === 2) {
-            numCorrect++; 
-            console.log("Rätt svar på fråga 2!");
-            answerFunction(isCorrect);
-        }
+    // Fråga 3
+    if (selectedValues.includes("fem")) {
+
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Fel svar på fråga tre!`; 
+        ulList.appendChild(listElement); 
+
+    } else if (selectedValues.includes("tjugo")) {
+
+        numCorrect++; 
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Rätt svar på fråga tre!`; 
+        ulList.appendChild(listElement); 
+
+    }
+
+    // Fråga 4
+    if (selectedValues.includes("red")) {
+
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Fel svar på fråga fyra!`; 
+        ulList.appendChild(listElement); 
+
+
+    } else if (selectedValues.includes("blue")) {
+
+        numCorrect++; 
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Rätt svar på fråga fyra!`; 
+        ulList.appendChild(listElement); 
+
+    }
+
+    // Fråga 5
+    if (selectedValues.includes("ett")) {
+
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Fel svar på fråga fem!`; 
+        ulList.appendChild(listElement); 
+    } else if (selectedValues.includes("tre")) {
+
+        numCorrect++; 
+        numTotal++; 
+        
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Rätt svar på fråga fem!`; 
+        ulList.appendChild(listElement); 
+
+    }
+
+    // Fråga 6
+
+    if (selectedValues.includes("svampdjur")) {
+
+        numCorrect++; 
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Rätt svar på fråga sex!`; 
+        ulList.appendChild(listElement); 
+
+    } else if (selectedValues.includes("octopus")) {
+
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Fel svar på fråga sex!`; 
+        ulList.appendChild(listElement); 
+    }
+
+    // Fråga 7
+
+    if (selectedValues.includes("pufferfish")) {
+
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Fel svar på fråga sju!`; 
+        ulList.appendChild(listElement); 
+
+    } else if (selectedValues.includes("boxjellyfish")) {
+
+        numCorrect++; 
+        numTotal++;
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Rätt svar på fråga sju!`; 
+        ulList.appendChild(listElement); 
+
+    }
+
+    // Fråga 8
+
+    if (selectedValues.includes("djurplankton")) {
+
+        numCorrect++; 
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Rätt svar på fråga åtta!`; 
+        ulList.appendChild(listElement); 
+
+    } else if (selectedValues.includes("krill")) {
+
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Fel svar på fråga åtta!`; 
+        ulList.appendChild(listElement);
+
+    }
+
+    // Fråga 9
+    if (selectedValues.includes("sant")) {
+
+        numCorrect++; 
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Rätt svar på fråga nio!`; 
+        ulList.appendChild(listElement);
+
+    } else if (selectedValues.includes("falskt")) {
+
+        numTotal++;
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Fel svar på fråga nio!`; 
+        ulList.appendChild(listElement);
+    }
+
+    // Fråga 10
+
+    if (selectedValues.includes("vithaj")) {
+
+        numTotal++;
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Fel svar på fråga tio!`; 
+        ulList.appendChild(listElement);
+
+    } else if (selectedValues.includes("delfin")) {
+
+        numCorrect++; 
+        numTotal++; 
+
+        const ulList = document.getElementById("ulList");
+        let listElement = document.createElement("li");
+        listElement.innerText = `Rätt svar på fråga tio!`; 
+        ulList.appendChild(listElement);
+
+    }
+
+    // RÄTTNINGSFUNKTION
+    if (numCorrect/numTotal >= 0.75) {
+
+        let vg = document.getElementById("vg"); 
+        vg.innerHTML="<p style='color: green'>Du är väl godkänd</p>";
+        
+    } else if (numCorrect/numTotal >= 0.5) {
+
+        let g = document.getElementById("g");
+        g.innerHTML="<p style='color: orange'>Du är godkänd</p>";
+
+    } else if (numCorrect/numTotal < 0.5) {
+        
+        let u = document.getElementById("u");
+        u.innerHTML = "<p style='color: red'>Du är underkänd!</p>";
     }
 
     }); 
