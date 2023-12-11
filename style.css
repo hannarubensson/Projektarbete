@@ -19,6 +19,7 @@ body {
     padding: 10px; 
     background-color: antiquewhite;
     border-radius: 10px;
+    border: 0px; 
 }
 
 #darkMode {
@@ -26,6 +27,7 @@ body {
     background-color: rgb(84, 42, 12);
     border-radius: 10px;
     color: white;
+    border: 0px; 
 }
 h1 {
     font-family: "Amatic SC";
@@ -43,4 +45,12 @@ fieldset {
     font-family: "Poppins";
     color:rgb(96, 25, 25);
     border: 3px solid white;
+}
+
+#gradeTest {
+    padding: 10px; 
+    background-color: chocolate;
+    border-radius: 10px;
+    color: antiquewhite;
+    border: 0px; 
 }
