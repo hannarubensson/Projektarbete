@@ -129,6 +129,7 @@ let getCurrentQuestion = () => {
 
 let fetchSelectedValues = (question, value) => {
 
+    // Tom array med alla valda svar
     const selectedValues = []; 
     
     // Fråga 1
@@ -206,9 +207,6 @@ let fetchSelectedValues = (question, value) => {
     
 }
 
-// Tom array med youranswers
-let yourAnswers = [];
-
 // Lägger in svaren på frågorna i ett objekt
 let rememberMyAnswer = () => {
     
@@ -226,8 +224,6 @@ const gradeTest = document.getElementById("gradeTest"); // Hämtar knappen grade
 
 gradeTest.addEventListener("click", () => {
 
-    console.log("Klickat på knappen!");
-    
     const currentQuestion = getCurrentQuestion(); 
     let numCorrect = 0; 
     let numFail = 0; 
@@ -237,10 +233,8 @@ gradeTest.addEventListener("click", () => {
 
     // Fråga 1
     if (selectedValues.includes("hjärnan")) {
-        console.log("Selected values:", selectedValues)
+
         numCorrect++;   
-        
-        console.log("Rätt svar på fråga 1!");
 
         const ulList = document.getElementById("ulList");
         let listElement = document.createElement("li");
@@ -450,7 +444,7 @@ gradeTest.addEventListener("click", () => {
     }
 
     
-        //     < 50% - Underkänt (röd) 1-4 rätt 
+        // < 50% - Underkänt (röd) 1-4 rätt 
         // 50%-75% - Bra (gul/orange) 5-7 rätt 
         // > 75% - Riktigt bra jobbat (grönt) 8-10 rätt
 
@@ -468,8 +462,6 @@ gradeTest.addEventListener("click", () => {
         
         let u = document.getElementById("u");
         u.innerHTML = "<p style='color: red'>Du är underkänd!</p>";
-
-
     }
 
     }); 
