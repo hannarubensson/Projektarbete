@@ -113,8 +113,6 @@ lightMode.addEventListener("click", () => {
 
 // Här kommer funktionerna för vad som händer i quizet -------------------------------------------------
 
-// Funktion för att hämta checkboxar
-
 let currentQuestionIndex = 0; 
 
 // Vilken fråga man är på 
@@ -126,7 +124,7 @@ let getCurrentQuestion = () => {
 }
 
 }
-
+// Hämtar svaren från radiobuttons
 let fetchSelectedValues = (question, value) => {
 
     // Tom array med alla valda svar
@@ -207,21 +205,10 @@ let fetchSelectedValues = (question, value) => {
     
 }
 
-// Lägger in svaren på frågorna i ett objekt
-let rememberMyAnswer = () => {
-    
-    const question = getCurrentQuestion(); // Vilken fråga man är på
-
-    yourAnswers.push({
-        id: question.id,
-        selectedanswer: fetchSelectedValues(),
-        correctanswer: question.correctanswer, 
-    });
-
-}
-
 const gradeTest = document.getElementById("gradeTest"); // Hämtar knappen gradeTest (rättning)
 
+
+// Vad som händer när man trycker på gradeTest-knappen
 gradeTest.addEventListener("click", () => {
 
     const currentQuestion = getCurrentQuestion(); 
@@ -453,7 +440,7 @@ gradeTest.addEventListener("click", () => {
 
     }
 
-    // RÄTTNINGSFUNKTION
+    // RÄTTNINGSFUNKTION - räknar ut i procent hur många rätt man fått
     if (numCorrect/numTotal >= 0.75) {
 
         let vg = document.getElementById("vg"); 
